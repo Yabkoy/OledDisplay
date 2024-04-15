@@ -1,3 +1,4 @@
-/build
+build/
+examples/
 pico_sdk_import.cmake
 blink.c

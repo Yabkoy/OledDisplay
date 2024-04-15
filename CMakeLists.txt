@@ -11,7 +11,7 @@ pico_sdk_init()
 
 # rest of your project
 add_executable(${PROJECT_NAME}
-	blink.c
+	main.c
 )
 
 # Add pico_stdlib library which aggregates commonly used features
