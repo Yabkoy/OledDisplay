@@ -1,5 +1,24 @@
 #include "sh1122.h"
 
+const uint8_t SET_COL_ADR_LSB =  0x0;
+const uint8_t SET_COL_ADR_MSB = 0x10;
+const uint8_t SET_DISP_START_LINE = 0x40;
+const uint8_t SET_CONTRAST =0x81;
+const uint8_t SET_SEG_REMAP = 0xA0;
+const uint8_t SET_ENTIRE_ON = 0xA4;
+const uint8_t SET_NORM_INV = 0xA6;
+const uint8_t SET_MUX_RATIO = 0xA8;
+const uint8_t SET_CTRL_DCDC = 0xAD;
+const uint8_t SET_DISP = 0xAE;
+const uint8_t SET_ROW_ADR = 0xB0;
+const uint8_t SET_COM_OUT_DIR = 0xC0;
+const uint8_t SET_DISP_OFFSET = 0xD3;
+const uint8_t SET_DISP_CLK_DIV = 0xD5;
+const uint8_t SET_PRECHARGE = 0xD9;
+const uint8_t SET_VCOM_DESEL = 0xDB;
+const uint8_t SET_VSEG_LEVEL = 0xDC;
+const uint8_t SET_DISCHARGE_LEVEL = 0x30;
+
 void sh1122_write_cmd(SH1122_SPI* spiData, uint8_t cmd){
 	gpio_put(spiData->pin_cs, 1);
 	gpio_put(spiData->pin_dc, 0);
@@ -16,6 +35,13 @@ void sh1122_write_data(SH1122_SPI* spiData, uint8_t* buffer, size_t len){
 	gpio_put(spiData->pin_cs, 1);
 }
 
+void sh1122_Show(SH1122_SPI* spiData, uint8_t* buffer, size_t len){
+	sh1122_write_cmd(spiData, SET_COL_ADR_LSB);
+	sh1122_write_cmd(spiData, SET_COL_ADR_MSB);
+	sh1122_write_cmd(spiData, SET_ROW_ADR);
+
+	sh1122_write_data(spiData, buffer, len);
+}
 
 void sh1122_Init_Data(SH1122_SPI* spiData){
 	uint8_t displayCommands[] = {
@@ -39,17 +65,12 @@ void sh1122_Init_Data(SH1122_SPI* spiData){
         SET_DISP | 0x01,
 	};
 	
-	
 	for(int i=0; i<sizeof(displayCommands)/sizeof(uint8_t); i++){
 		sh1122_write_cmd(spiData, displayCommands[i]);
 	}
 
-	sh1122_write_cmd(spiData, SET_COL_ADR_LSB);
-	sh1122_write_cmd(spiData, SET_COL_ADR_MSB);
-	sh1122_write_cmd(spiData, SET_ROW_ADR);
-
-	sh1122_write_data(spiData, testBuffer, sizeof(testBuffer)/sizeof(uint8_t));
 }
+
 
 
 void sh1122_Init_Pins(SH1122_SPI* spiData){
