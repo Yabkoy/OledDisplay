@@ -1,3 +1,11 @@
+///This library was based on micropython code that handle sh1122 communication via SPI.
+///I rewrite it to C library, using raspberry pi pico c/c++ sdk
+///
+///Orginal code: https://github.com/fdufnews/pico_examples
+///drivers/sh1122.py is file that i used
+///
+
+
 #ifndef SH1122_H
 #define SH1122_H
 

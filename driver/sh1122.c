@@ -71,8 +71,6 @@ void sh1122_Init_Data(SH1122_SPI* spiData){
 
 }
 
-
-
 void sh1122_Init_Pins(SH1122_SPI* spiData){
 	spi_init(spiData->spi, spiData->rate);
 
