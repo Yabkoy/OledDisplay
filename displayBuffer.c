@@ -11,7 +11,7 @@ displayBuffer initDisplayBuffer(size_t width, size_t height){
 void fillBufferWithValue(displayBuffer* buffer, uint8_t value){
     size_t* bufferLen = &buffer->bufferLen;
 
-    for(int i=0; i<*buffferLen; i++){
+    for(int i=0; i<*bufferLen; i++){
         buffer->buffer[i] = value;
     }
 }
