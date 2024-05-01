@@ -3,6 +3,7 @@
 #include <math.h>
 #include "pico/stdlib.h"
 #include "driver/sh1122.h"
+#include "displayBuffer.h"
 
 #define WIDTH 256
 #define HEIGHT 64
@@ -37,7 +38,7 @@ int main(){
 	sh1122_Init_Pins(&spiData);
 	sh1122_Init_Data(&spiData);
 
-	
+
 
 
 }
