@@ -47,10 +47,17 @@ typedef struct {
     uint pin_cs;
 } SH1122_SPI;
 
+void sh1122_init_pins(SH1122_SPI* spiData);
+void sh1122_init_data(SH1122_SPI* spiData);
+
 void sh1122_write_cmd(SH1122_SPI* spiData, uint8_t cmd);
 void sh1122_write_data(SH1122_SPI* spiData, uint8_t* buffer, size_t len);
-void sh1122_Show(SH1122_SPI* spiData, uint8_t* buffer, size_t len);
-void sh1122_Init_Data(SH1122_SPI* spiData);
-void sh1122_Init_Pins(SH1122_SPI* spiData);
+
+void sh1122_show(SH1122_SPI* spiData, uint8_t* buffer, size_t len);
+void sh1122_poweroff(SH1122_SPI* spiData);
+void sh1122_poweron(SH1122_SPI* spiData);
+void sh1122_contrast(SH1122_SPI* spiData, uint8_t contrast);
+void sh1122_flip(SH1122_SPI* spiData);
+void sh1122_invert(SH1122_SPI* spiData, uint8_t invert);
 
 #endif // SH1122_H

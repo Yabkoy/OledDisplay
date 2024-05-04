@@ -35,10 +35,7 @@ int main(){
 	spiData.pin_dc = DC;
 	spiData.pin_cs = CS;
 	
-	sh1122_Init_Pins(&spiData);
-	sh1122_Init_Data(&spiData);
-
-
-
+	sh1122_init_pins(&spiData);
+	sh1122_init_data(&spiData);
 
 }
