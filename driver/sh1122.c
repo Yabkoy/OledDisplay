@@ -3,7 +3,7 @@
 const uint8_t SET_COL_ADR_LSB =  0x0;
 const uint8_t SET_COL_ADR_MSB = 0x10;
 const uint8_t SET_DISP_START_LINE = 0x40;
-const uint8_t SET_CONTRAST =0x81;
+const uint8_t SET_CONTRAST = 0x81;
 const uint8_t SET_SEG_REMAP = 0xA0;
 const uint8_t SET_ENTIRE_ON = 0xA4;
 const uint8_t SET_NORM_INV = 0xA6;
