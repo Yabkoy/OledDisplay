@@ -11,10 +11,10 @@ pico_sdk_init()
 
 # rest of your project
 add_executable(${PROJECT_NAME}
-	main.c
-	font.c
-	displayBuffer.c
-	driver/sh1122.c
+	src/main.c
+	src/font.c
+	src/displayBuffer.c
+	src/driver/sh1122.c
 )
 
 # Add pico_stdlib library which aggregates commonly used features
