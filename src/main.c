@@ -20,6 +20,11 @@
 #define DC  4
 #define CS  5
 
+#define DS3231_I2C_PORT i2c0
+#define DS3231_SDA 20 //On board its D
+#define DS3231_SCL 21 //On board its C
+
+
 uint32_t getRunningTime(){
 	return to_ms_since_boot(get_absolute_time());
 }
@@ -27,6 +32,9 @@ uint32_t getRunningTime(){
 int main(){
 	setup_default_uart();
 	printf("RaspiStart\n\n");
+
+	ds3231_rtc_t rtc;
+    ds3231_init(DS3231_I2C_PORT, DS3231_SDA, DS3231_SCL, &rtc);
 
 	SH1122_SPI spiData;
 	spiData.width = WIDTH;
