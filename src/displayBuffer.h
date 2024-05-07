@@ -14,7 +14,9 @@ typedef struct
 
 void initDisplayBuffer(displayBuffer* buffer, size_t width, size_t height);
 void fillBufferWithValue(displayBuffer* buffer, uint8_t value);
-void addBufferToDisplay(displayBuffer* dBuffer, const uint8_t* number, uint8_t w, uint8_t h, uint8_t x, uint8_t y);
+
+void addDisplayBufferToDisplayBuffer(displayBuffer* sourceBuffer, displayBuffer* inputBuffer, uint8_t x, uint8_t y);
+void addUint8TBufferToDisplay(displayBuffer* sourceBuffer, const uint8_t* inputBuffer, uint8_t w, uint8_t h, uint8_t x, uint8_t y);
 
 uint8_t convertPixelsToOledPixel(uint8_t p1, uint8_t p2);
 void convertNormalDisplayBufferToOledBuffer(displayBuffer* buffer);
