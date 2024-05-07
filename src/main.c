@@ -7,6 +7,7 @@
 #include "driver/sh1122.h"
 #include "driver/ds3231.h"
 #include "displayBuffer.h"
+#include "font.h"
 
 #define WIDTH 256
 #define HEIGHT 64
@@ -51,5 +52,49 @@ int main(){
 	
 	sh1122_init_pins(&spiData);
 	sh1122_init_data(&spiData);
+
+
+
+	bool isDot = true;
+	while(true){
+		displayBuffer oledDisplay;
+		initDisplayBuffer(&oledDisplay, 256, 64);
+
+		ds3231_datetime_t currentTime;
+		ds3231_get_datetime(&currentTime, &rtc);
+
+		size_t numbersIndexData[] = {
+			currentTime.hour/10, 
+			currentTime.hour%10, 
+			currentTime.minutes/10, 
+			currentTime.minutes%10
+		};
+
+		for(size_t i=0; i<4; i++){
+			uint8_t* scaleNumber = scaleImageNearestNeighbor(allNumbersPointer[numbersIndexData[i]], 10, 14, 4);
+			uint8_t distanceFromLeft = (i>1)? 50 : 30;
+			addUint8TBufferToDisplay(&oledDisplay, scaleNumber, 10*4, 14*4, (i*12*4)+distanceFromLeft, 4);
+			free(scaleNumber);
+		}
+		if(isDot){
+			for(int i=0; i<2; i++){
+				uint8_t* dot = (uint8_t*)malloc(8*8);
+				memset(dot, 0xFF, 8*8);
+				addUint8TBufferToDisplay(&oledDisplay, dot, 8, 8, 128, (i*21)+20);
+				free(dot);
+			}
+		}
+
+
+
+		convertNormalDisplayBufferToOledBuffer(&oledDisplay);
+		sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
+
+
+		deAllocBuffer(&oledDisplay);
+
+		isDot = !isDot;
+		sleep_ms(1000);
+	}
 
 }
