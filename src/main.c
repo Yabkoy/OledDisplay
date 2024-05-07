@@ -3,6 +3,7 @@
 #include <math.h>
 #include "pico/stdlib.h"
 #include "pico/time.h"
+#include "scaling.h"
 #include "driver/sh1122.h"
 #include "driver/ds3231.h"
 #include "displayBuffer.h"

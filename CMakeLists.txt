@@ -13,6 +13,7 @@ pico_sdk_init()
 add_executable(${PROJECT_NAME}
 	src/main.c
 	src/font.c
+	src/scaling.c
 	src/displayBuffer.c
 	src/driver/sh1122.c
 	src/driver/ds3231.c
