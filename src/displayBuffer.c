@@ -10,6 +10,14 @@ void fillBufferWithValue(displayBuffer* buffer, uint8_t value){
     memset(buffer->buffer, value, buffer->bufferLen);
 }
 
+void changeBrightness(displayBuffer* buffer, uint8_t intensity){
+    for(int i=0; i<buffer->bufferLen; i++){
+        if(buffer->buffer[i] != 0){
+            buffer->buffer[i] += intensity;
+        }
+    }
+}
+
 void addDisplayBufferToDisplayBuffer(displayBuffer* sourceBuffer, displayBuffer* inputBuffer, uint8_t x, uint8_t y){
     addUint8TBufferToDisplay(sourceBuffer, inputBuffer->buffer, inputBuffer->width, inputBuffer->height, x, y);
 }
