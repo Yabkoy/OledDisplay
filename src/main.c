@@ -37,29 +37,48 @@ int main(){
 
 	///PROGRAM LOOP HANDLE
 	bool isDot = true;
+
+	uint32_t previousTimeSecound = 0;
+
 	while(true){
-		displayBuffer oledDisplay;
-		initDisplayBuffer(&oledDisplay, 256, 64);
-
-		ds3231_datetime_t currentTime;
-		ds3231_get_datetime(&currentTime, &rtc);
-
 		if(isAnyTimeChangeButtonPressed(HOURS_BUTTON_PIN, MINUTE_BUTTON_PIN)){
-			addHoursAndMinutesToRTCModule(&rtc, &currentTime, HOURS_BUTTON_PIN, MINUTE_BUTTON_PIN);
+				ds3231_datetime_t currentTime;
+				ds3231_get_datetime(&currentTime, &rtc);
+				addHoursAndMinutesToRTCModule(&rtc, &currentTime, HOURS_BUTTON_PIN, MINUTE_BUTTON_PIN);
+
+				ds3231_get_datetime(&currentTime, &rtc);
+
+				displayBuffer oledDisplay;
+				initDisplayBuffer(&oledDisplay, 256, 64);
+				drawNumbers(&oledDisplay, &currentTime);
+				convertNormalDisplayBufferToOledBuffer(&oledDisplay);
+				sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
+
+				deAllocBuffer(&oledDisplay);
+				sleep_ms(100);
+			}
+
+
+		if(getRunningTime() - previousTimeSecound >= 1000){
+			displayBuffer oledDisplay;
+			initDisplayBuffer(&oledDisplay, 256, 64);
+
+			ds3231_datetime_t currentTime;
+			ds3231_get_datetime(&currentTime, &rtc);
+			
+			if(isDot){
+				drawClockDots(&oledDisplay);
+			}
+			drawNumbers(&oledDisplay, &currentTime);
+
+			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
+			sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
+
+			deAllocBuffer(&oledDisplay);
+
+			isDot = !isDot;
+			previousTimeSecound = getRunningTime();
 		}
-
-		drawNumbers(&oledDisplay, &currentTime);
-		if(isDot){
-			drawClockDots(&oledDisplay);
-		}
-
-		convertNormalDisplayBufferToOledBuffer(&oledDisplay);
-		sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
-
-		deAllocBuffer(&oledDisplay);
-
-		isDot = !isDot;
-		sleep_ms(1000);
 	}
 
 }
