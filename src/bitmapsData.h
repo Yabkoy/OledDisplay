@@ -28,5 +28,6 @@ extern const uint8_t fontSunday[];
 
 
 extern const uint8_t* allNumbersPointer[];
+extern const uint8_t* allDaysPointer[];
 
 #endif

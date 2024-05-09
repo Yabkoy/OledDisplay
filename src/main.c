@@ -102,12 +102,11 @@ int main(){
 			}
 			drawNumbers(&oledDisplay, &currentTime);
 
-
 			addUint8TBufferToDisplay(&oledDisplay, allNumbersPointer[tempFirstDigit], 10, 14, 256-41, 8);
 			addUint8TBufferToDisplay(&oledDisplay, allNumbersPointer[tempSecDigit], 10, 14, 256-29, 8);
 			addUint8TBufferToDisplay(&oledDisplay, fontCelsius, 17, 14, 256-17, 8);
 
-			
+			addUint8TBufferToDisplay(&oledDisplay, allDaysPointer[currentTime.dotw], 34, 14, 256-36, 45);
 
 			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
 			sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);

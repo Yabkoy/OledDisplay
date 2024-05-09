@@ -1442,3 +1442,13 @@ const uint8_t* allNumbersPointer[] = {
     fontDataEight,
     fontDataNine
 };
+
+const uint8_t* allDaysPointer[] = {
+	fontMonday,
+	fontTuesday,
+	fontWednesday,
+	fontThursday,
+	fontFriday,
+	fontSaturday,
+	fontSunday
+};

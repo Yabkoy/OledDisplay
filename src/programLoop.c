@@ -12,9 +12,16 @@ void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* c
 	uint vHour = validateHour(currentTime->hour + !gpio_get(hourPin));
 	uint vMinute = validateMinute(currentTime->minutes + !gpio_get(minutePin));
 
+	currentTime->hour = vHour;
+	currentTime->minutes = vMinute;
+
 	ds3231_datetime_t newTime = {
 		.hour = vHour,
 		.minutes = vMinute,
+		.dotw = currentTime->dotw,
+		.day = currentTime->day,
+		.month = currentTime->month,
+		.year = currentTime->year
 	};
 
 	ds3231_set_datetime(&newTime, rtcModule);
