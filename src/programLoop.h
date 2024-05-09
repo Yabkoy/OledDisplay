@@ -5,7 +5,7 @@
 #include "driver/ds3231.h"
 #include "displayBuffer.h"
 #include "scaling.h"
-#include "font.h"
+#include "bitmapsData.h"
 
 uint validateHour(uint hour);
 uint validateMinute(uint minute);

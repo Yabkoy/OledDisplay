@@ -1,6 +1,8 @@
-#ifndef FONT_H
-#define FONT_H
+#ifndef BITMAPSDATA_H
+#define BITMAPSDATA_H
 #include "pico/stdlib.h"
+
+extern uint8_t startupLogo[];
 
 extern const uint8_t fontDataZero[];
 extern const uint8_t fontDataOne[];

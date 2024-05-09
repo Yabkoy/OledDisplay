@@ -12,7 +12,7 @@ pico_sdk_init()
 # rest of your project
 add_executable(${PROJECT_NAME}
 	src/main.c
-	src/font.c
+	src/bitmapsData.c
 	src/scaling.c
 	src/moduleInitialization.c
 	src/programLoop.c
