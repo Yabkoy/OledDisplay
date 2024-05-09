@@ -34,7 +34,7 @@ void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 	for(size_t i=0; i<4; i++){
 		size_t* currentTimeDigits = getCurrentTimeDigits(currentTime);
 		uint8_t* scaleNumber = scaleImageNearestNeighbor(allNumbersPointer[currentTimeDigits[i]], 10, 14, 4);
-		uint8_t distanceFromLeft = (i>1)? 50 : 30;
+		uint8_t distanceFromLeft = (i>1)? 25 : 5;
 		addUint8TBufferToDisplay(oledDisplay, scaleNumber, 10*4, 14*4, (i*12*4)+distanceFromLeft, 4);
 		
 		free(scaleNumber);
@@ -46,7 +46,7 @@ void drawClockDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		uint8_t* dot = (uint8_t*)malloc(8*8);
 		memset(dot, 0xFF, 8*8);
-		addUint8TBufferToDisplay(oledDisplay, dot, 8, 8, 128, (i*21)+20);
+		addUint8TBufferToDisplay(oledDisplay, dot, 8, 8, 104, (i*21)+20);
 		free(dot);
 	}
 }
