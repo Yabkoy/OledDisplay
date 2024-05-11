@@ -61,7 +61,6 @@ void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, u
 	memset(dot, 0xFF, width*height);
 	addUint8TBufferToDisplay(oledDisplay, dot, width, height, x, y);
 	free(dot);
-
 }
 
 void drawAllDots(displayBuffer* oledDisplay){
@@ -71,4 +70,16 @@ void drawAllDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		drawDotToDisplay(oledDisplay, 3, 3, 256-39, (i*5)+29);
 	}
+}
+
+void drawTemperature(displayBuffer* oledDisplay, ds3231_rtc_t* rtc){
+	float currentTemp;
+	ds3231_get_temperature(&currentTemp, rtc);
+	size_t tempFirstDigit = (int)currentTemp/10;
+	size_t tempSecDigit = (int)currentTemp%10;
+
+
+	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[tempFirstDigit], 10, 14, 256-41, 8);
+	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[tempSecDigit], 10, 14, 256-29, 8);
+	addUint8TBufferToDisplay(oledDisplay, fontCelsius, 17, 14, 256-17, 8);
 }

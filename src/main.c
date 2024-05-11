@@ -91,21 +91,11 @@ int main(){
 			ds3231_datetime_t currentTime;
 			ds3231_get_datetime(&currentTime, &rtc);
 
-			float currentTemp;
-			ds3231_get_temperature(&currentTemp, &rtc);
-
-			size_t tempFirstDigit = (int)currentTemp/10;
-			size_t tempSecDigit = (int)currentTemp%10;
-			
 			if(isDot){
 				drawAllDots(&oledDisplay);
 			}
 			drawNumbers(&oledDisplay, &currentTime);
-
-			addUint8TBufferToDisplay(&oledDisplay, allNumbersPointer[tempFirstDigit], 10, 14, 256-41, 8);
-			addUint8TBufferToDisplay(&oledDisplay, allNumbersPointer[tempSecDigit], 10, 14, 256-29, 8);
-			addUint8TBufferToDisplay(&oledDisplay, fontCelsius, 17, 14, 256-17, 8);
-
+			drawTemperature(&oledDisplay, &rtc);
 			drawSecondsNumbers(&oledDisplay, &currentTime);
 
 			addUint8TBufferToDisplay(&oledDisplay, allDaysPointer[currentTime.dotw], 34, 14, 256-41, 45);

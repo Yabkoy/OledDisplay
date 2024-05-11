@@ -18,4 +18,6 @@ void drawSecondsNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTi
 void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
 void drawAllDots(displayBuffer* oledDisplay);
 
+void drawTemperature(displayBuffer* oledDisplay, ds3231_rtc_t* rtc);
+
 #endif
