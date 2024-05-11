@@ -52,15 +52,23 @@ void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 void drawSecondsNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 	size_t secLeftDigit = currentTime->seconds/10;
 	size_t secRightDigit = currentTime->seconds%10;
-	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[secLeftDigit], 10, 14, 256-32, 25);
-	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[secRightDigit], 10, 14, 256-20, 25);
+	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[secLeftDigit], 10, 14, 256-32, 27);
+	addUint8TBufferToDisplay(oledDisplay, allNumbersPointer[secRightDigit], 10, 14, 256-20, 27);
 }
 
-void drawClockDots(displayBuffer* oledDisplay){
+void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y){
+	uint8_t* dot = (uint8_t*)malloc(width*height);
+	memset(dot, 0xFF, width*height);
+	addUint8TBufferToDisplay(oledDisplay, dot, width, height, x, y);
+	free(dot);
+
+}
+
+void drawAllDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
-		uint8_t* dot = (uint8_t*)malloc(8*8);
-		memset(dot, 0xFF, 8*8);
-		addUint8TBufferToDisplay(oledDisplay, dot, 8, 8, 104, (i*21)+20);
-		free(dot);
+		drawDotToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);
+	}
+	for(int i=0; i<2; i++){
+		drawDotToDisplay(oledDisplay, 3, 3, 256-39, (i*5)+29);
 	}
 }

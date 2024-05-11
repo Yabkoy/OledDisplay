@@ -98,7 +98,7 @@ int main(){
 			size_t tempSecDigit = (int)currentTemp%10;
 			
 			if(isDot){
-				drawClockDots(&oledDisplay);
+				drawAllDots(&oledDisplay);
 			}
 			drawNumbers(&oledDisplay, &currentTime);
 

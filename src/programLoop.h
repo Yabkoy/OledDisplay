@@ -15,6 +15,7 @@ size_t* getCurrentTimeDigits(ds3231_datetime_t* currentTime);
 
 void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
 void drawSecondsNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
-void drawClockDots(displayBuffer* oledDisplay);
+void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
+void drawAllDots(displayBuffer* oledDisplay);
 
 #endif
