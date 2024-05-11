@@ -72,6 +72,11 @@ void drawAllDots(displayBuffer* oledDisplay){
 	}
 }
 
+void drawDayOfWeek(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
+	uint8_t dayOfWeekIndex = currentTime->dotw;
+	addUint8TBufferToDisplay(oledDisplay, allDaysPointer[dayOfWeekIndex], 34, 14, 256-41, 45);
+}
+
 void drawTemperature(displayBuffer* oledDisplay, ds3231_rtc_t* rtc){
 	float currentTemp;
 	ds3231_get_temperature(&currentTemp, rtc);

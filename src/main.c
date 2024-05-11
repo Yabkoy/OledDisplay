@@ -20,6 +20,7 @@ bool isAnyTimeChangeButtonPressed(uint hourButton, uint minuteButton){
 	return !gpio_get(hourButton) || !gpio_get(minuteButton);
 }
 
+
 int main(){
 	///STARTING FUNCTION HANDLE
 
@@ -41,9 +42,6 @@ int main(){
 		uint8_t* mazdaText = (uint8_t*)malloc(174*64);
 		memcpy(mazdaLogo, mazdaLogoBitmap, 76*64);
 		memcpy(mazdaText, mazdaTextBitmap, 174*64);
-
-
-
 
 		addUint8TBufferToDisplay(&logoDisplay, mazdaLogo, 76, 64, 0, 0);
 		addUint8TBufferToDisplay(&logoDisplay, mazdaText, 174, 64, 84, 0);
@@ -97,9 +95,7 @@ int main(){
 			drawNumbers(&oledDisplay, &currentTime);
 			drawTemperature(&oledDisplay, &rtc);
 			drawSecondsNumbers(&oledDisplay, &currentTime);
-
-			addUint8TBufferToDisplay(&oledDisplay, allDaysPointer[currentTime.dotw], 34, 14, 256-41, 45);
-
+			drawDayOfWeek(&oledDisplay, &currentTime);
 
 			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
 			sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
