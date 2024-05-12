@@ -37,7 +37,36 @@ size_t* getCurrentTimeDigits(ds3231_datetime_t* currentTime){
 
 	return numberIndexData;
 }
-void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
+
+size_t* getCurrentDateDigits(ds3231_datetime_t* currentTime){
+	size_t* numberIndexData = (size_t*)malloc(sizeof(size_t)*8);
+
+	numberIndexData[0] = currentTime->day/10;
+	numberIndexData[1] = currentTime->day%10;
+	numberIndexData[2] = currentTime->month/10;
+	numberIndexData[3] = currentTime->month%10;
+	numberIndexData[4] = (currentTime->year)/1000;
+	numberIndexData[5] = ((currentTime->year)/100)%10;
+	numberIndexData[6] = ((currentTime->year)%100)/10;
+	numberIndexData[7] = ((currentTime->year)%100)%10;
+
+	return numberIndexData;
+}
+
+void drawCurrentDateNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
+	size_t scale = 2;
+	for(size_t i=0; i<8; i++){
+		size_t* currentDateDigits = getCurrentDateDigits(currentTime);
+		uint8_t* scaleNumber = scaleImageNearestNeighbor(allNumbersPointer[currentDateDigits[i]], 10, 14, scale);
+		uint8_t distanceFromLeft = (i<5)? (!(i%2)*5) : 0;
+		addUint8TBufferToDisplay(oledDisplay, scaleNumber, 10*scale, 14*scale, (i*14*scale)+distanceFromLeft, scale);
+		
+		free(scaleNumber);
+		free(currentDateDigits);
+	}	
+}
+
+void drawCurrentTimeNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 	for(size_t i=0; i<4; i++){
 		size_t* currentTimeDigits = getCurrentTimeDigits(currentTime);
 		uint8_t* scaleNumber = scaleImageNearestNeighbor(allNumbersPointer[currentTimeDigits[i]], 10, 14, 4);

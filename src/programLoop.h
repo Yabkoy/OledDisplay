@@ -12,8 +12,10 @@ uint validateMinute(uint minute);
 void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* currentTime, uint hourPin, uint minutePin);
 
 size_t* getCurrentTimeDigits(ds3231_datetime_t* currentTime);
+size_t* getCurrentDateDigits(ds3231_datetime_t* currentTime);
 
-void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
+void drawCurrentDateNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
+void drawCurrentTimeNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
 void drawSecondsNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
 void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
 void drawAllDots(displayBuffer* oledDisplay);

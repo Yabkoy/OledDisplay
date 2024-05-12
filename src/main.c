@@ -57,6 +57,13 @@ int main(){
 
 	}
 
+	ds3231_datetime_t newTime = {
+		.day = 0,
+		.month = 0,
+		.year = 0	
+	};
+
+	ds3231_set_datetime(&newTime, &rtc);
 
 	///PROGRAM LOOP HANDLE
 	bool isDot = true;
@@ -73,7 +80,7 @@ int main(){
 
 				displayBuffer oledDisplay;
 				initDisplayBuffer(&oledDisplay, 256, 64);
-				drawNumbers(&oledDisplay, &currentTime);
+				drawCurrentTimeNumbers(&oledDisplay, &currentTime);
 				convertNormalDisplayBufferToOledBuffer(&oledDisplay);
 				sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
 
@@ -92,10 +99,12 @@ int main(){
 			if(isDot){
 				drawAllDots(&oledDisplay);
 			}
-			drawNumbers(&oledDisplay, &currentTime);
+			drawCurrentTimeNumbers(&oledDisplay, &currentTime);
 			drawTemperature(&oledDisplay, &rtc);
 			drawSecondsNumbers(&oledDisplay, &currentTime);
 			drawDayOfWeek(&oledDisplay, &currentTime);
+			//drawCurrentDateNumbers(&oledDisplay, &currentTime);
+
 
 			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
 			sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
