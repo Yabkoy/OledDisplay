@@ -58,12 +58,14 @@ void drawCurrentDateNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* curre
 	for(size_t i=0; i<8; i++){
 		size_t* currentDateDigits = getCurrentDateDigits(currentTime);
 		uint8_t* scaleNumber = scaleImageNearestNeighbor(allNumbersPointer[currentDateDigits[i]], 10, 14, scale);
-		uint8_t distanceFromLeft = (i<5)? (!(i%2)*5) : 0;
-		addUint8TBufferToDisplay(oledDisplay, scaleNumber, 10*scale, 14*scale, (i*14*scale)+distanceFromLeft, scale);
+		uint8_t distanceFromLeft = (i<6)? (!(i%2)*5) : -5*(i-5);
+		addUint8TBufferToDisplay(oledDisplay, scaleNumber, 10*scale, 14*scale, (i*14*scale)+distanceFromLeft, 18);
+		printf("Current Distance: %d\n", (i*14*scale)+distanceFromLeft);
 		
 		free(scaleNumber);
 		free(currentDateDigits);
 	}	
+	printf("\n\nNEW\n\n");
 }
 
 void drawCurrentTimeNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){

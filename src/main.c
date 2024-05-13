@@ -97,13 +97,13 @@ int main(){
 			ds3231_get_datetime(&currentTime, &rtc);
 
 			if(isDot){
-				drawAllDots(&oledDisplay);
+				//drawAllDots(&oledDisplay);
 			}
-			drawCurrentTimeNumbers(&oledDisplay, &currentTime);
-			drawTemperature(&oledDisplay, &rtc);
-			drawSecondsNumbers(&oledDisplay, &currentTime);
-			drawDayOfWeek(&oledDisplay, &currentTime);
-			//drawCurrentDateNumbers(&oledDisplay, &currentTime);
+			//drawCurrentTimeNumbers(&oledDisplay, &currentTime);
+			//drawTemperature(&oledDisplay, &rtc);
+			//drawSecondsNumbers(&oledDisplay, &currentTime);
+			//drawDayOfWeek(&oledDisplay, &currentTime);
+			drawCurrentDateNumbers(&oledDisplay, &currentTime);
 
 
 			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
