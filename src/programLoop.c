@@ -34,12 +34,21 @@ void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, u
 	free(dot);
 }
 
-void drawAllDots(displayBuffer* oledDisplay){
+void drawTimeDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		drawDotToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);
 	}
+}
+
+void drawSecondDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		drawDotToDisplay(oledDisplay, 3, 3, 256-39, (i*5)+29);
+	}
+}
+
+void drawDateDots(displayBuffer* oledDisplay){
+	for(int i=0; i<2; i++){
+		drawDotToDisplay(oledDisplay, 5, 5, calculateLeftDistanceForDate((i+1)*2, 2)-9, 41);
 	}
 }
 
