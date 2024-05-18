@@ -11,7 +11,10 @@ void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* c
 
 void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
 
+void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data);
 void drawEditModeMessage(SH1122_SPI* spiData);
+void drawClockModeMessage(SH1122_SPI* spiData);
+
 void drawTimeDots(displayBuffer* oledDisplay);
 void drawSecondDots(displayBuffer* oledDisplay);
 void drawDateDots(displayBuffer* oledDisplay);
