@@ -4,6 +4,7 @@
 
 extern const uint8_t mazdaLogoBitmap[];
 extern const uint8_t mazdaTextBitmap[];
+extern const uint8_t editModeMessage[];
 
 extern const uint8_t fontDataZero[];
 extern const uint8_t fontDataOne[];

@@ -34,6 +34,16 @@ void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, u
 	free(dot);
 }
 
+void drawEditModeMessage(SH1122_SPI* spiData){
+	displayBuffer editModeDisplay;
+	initDisplayBuffer(&editModeDisplay, 256, 64);
+	addUint8TBufferToDisplay(&editModeDisplay, editModeMessage, 256, 64, 0, 0);
+	convertNormalDisplayBufferToOledBuffer(&editModeDisplay);
+	
+	sh1122_show(spiData, editModeDisplay.buffer, editModeDisplay.bufferLen);
+	deAllocBuffer(&editModeDisplay);
+}
+
 void drawTimeDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		drawDotToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);
