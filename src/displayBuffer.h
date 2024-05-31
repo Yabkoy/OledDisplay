@@ -18,6 +18,7 @@ void changeBrightness(displayBuffer* buffer, uint8_t intensity);
 
 void addDisplayBufferToDisplayBuffer(displayBuffer* sourceBuffer, displayBuffer* inputBuffer, uint8_t x, uint8_t y);
 void addUint8TBufferToDisplay(displayBuffer* sourceBuffer, const uint8_t* inputBuffer, uint16_t w, uint16_t h, uint8_t x, uint8_t y);
+void dimBufferFromTopAndBottom(displayBuffer* sourceBuffer, size_t level);
 
 uint8_t convertPixelsToOledPixel(uint8_t p1, uint8_t p2);
 void convertNormalDisplayBufferToOledBuffer(displayBuffer* buffer);

@@ -32,6 +32,17 @@ void addUint8TBufferToDisplay(displayBuffer* sourceBuffer, const uint8_t* inputB
 		}
 	}
 }
+void dimBufferFromTopAndBottom(displayBuffer* sourceBuffer, size_t level){
+    for(int i=0; i<level; i++){
+        for(int j=0; j<sourceBuffer->width; j++){
+            size_t bufElement1 = (i*sourceBuffer->width)+j;
+            size_t bufElement2 = (sourceBuffer->bufferLen-1)-((i*sourceBuffer->width)+j);
+
+            sourceBuffer->buffer[bufElement1] = 0;
+            sourceBuffer->buffer[bufElement2] = 0;
+        }
+    }
+}
 
 uint8_t convertPixelsToOledPixel(uint8_t p1, uint8_t p2){
     return (p1 << 4) | p2;
