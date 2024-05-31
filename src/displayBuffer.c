@@ -28,7 +28,12 @@ void addDisplayBufferToDisplayBuffer(displayBuffer* sourceBuffer, displayBuffer*
 void addUint8TBufferToDisplay(displayBuffer* sourceBuffer, const uint8_t* inputBuffer, uint16_t w, uint16_t h, uint8_t x, uint8_t y){
 	for(int i=0; i<h; i++){
 		for(int j=0; j<w; j++){
-			sourceBuffer->buffer[(((i+y)*256)+j)+x] = inputBuffer[((i*w)+j)];
+            size_t sourceBufferElement = (((i+y)*256)+j)+x;
+            size_t inputBufferElement = ((i*w)+j);
+            if(sourceBufferElement >= sourceBuffer->bufferLen){
+                continue;
+            }
+			sourceBuffer->buffer[sourceBufferElement] = inputBuffer[inputBufferElement];
 		}
 	}
 }
