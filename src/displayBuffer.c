@@ -49,6 +49,19 @@ void dimBufferFromTopAndBottom(displayBuffer* sourceBuffer, size_t level){
     }
 }
 
+void invertDisplayBufferData(displayBuffer* sourceBuffer, size_t row){
+    if(sourceBuffer->width < row){
+        row = sourceBuffer->width;
+    }
+    
+    for(int i=0; i<sourceBuffer->height; i++){
+        for(int j=0; j<row; j++){
+            size_t bufferElement = (i*sourceBuffer->width)+j;
+            sourceBuffer->buffer[bufferElement] = (sourceBuffer->buffer[bufferElement] > 0)? 0 : 0xFF;
+        }
+    }
+}
+
 uint8_t convertPixelsToOledPixel(uint8_t p1, uint8_t p2){
     return (p1 << 4) | p2;
 }
