@@ -39,6 +39,12 @@ uint8_t calculateLeftDistanceForTime(size_t index, size_t scale){
 	return scaleValue+conditionValue;
 }
 
+uint8_t calculateLeftDistanceForEditTime(size_t index, size_t scale){
+	uint8_t scaleValue = index*12*scale;
+	uint8_t conditionValue = (index>1)? 25+25 : 5+25;
+	return scaleValue+conditionValue;
+}
+
 void drawNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime, size_t iterations, uint8_t heightDraw, size_t scale, size_t* (*currentDigitsFunction)(ds3231_datetime_t*), uint8_t (*calculateLeftDistanceFunction)(size_t, size_t)){
 	uint8_t width = 10;
 	uint8_t height = 14;
@@ -60,6 +66,9 @@ void drawCurrentDateNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* curre
 
 void drawCurrentTimeNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 	drawNumbers(oledDisplay, currentTime, 4, 4, 4, getCurrentTimeDigits, calculateLeftDistanceForTime);
+}
+void drawCurrentEditTimeNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
+	drawNumbers(oledDisplay, currentTime, 4, 4, 4, getCurrentTimeDigits, calculateLeftDistanceForEditTime);
 }
 
 void drawSecondsNumbers(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
