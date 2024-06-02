@@ -9,12 +9,12 @@ bool isMonthHave31Days(uint8_t month){
 }
 
 void validateTimeUnits(uint8_t* timeUnit, uint8_t min, uint8_t max){
-	if(*timeUnit > max){
+	if(*timeUnit > max || *timeUnit < min){
 		*timeUnit = min;
 	}
 }
 void validateYear(uint16_t* year, uint16_t min, uint16_t max){
-	if(*year > max){
+	if(*year > max || *year < min){
 		*year = min;
 	}
 }
