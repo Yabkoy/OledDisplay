@@ -8,6 +8,9 @@ void initEditClockNumbersData(editClockNumbers* ecn, ds3231_rtc_t* rtc){
 	ecn->h2 = ecnTime.hour%10;
 	ecn->m1 = ecnTime.minutes/10;
 	ecn->m2 = ecnTime.minutes%10;
+	ecn->day = ecnTime.day;
+	ecn->month = ecnTime.month;
+	ecn->year = ecnTime.year;
 }
 
 void validateEditClockNumber(editClockNumbers* ecn){
