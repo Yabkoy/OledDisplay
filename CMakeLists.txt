@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME}
 	src/moduleInitialization.c
 	src/programLoop.c
 	src/dateAndTimeValidation.c
+	src/editTimeDrawingValidation.c
 	src/numberDrawing.c
 	src/displayBuffer.c
 	src/driver/sh1122.c
