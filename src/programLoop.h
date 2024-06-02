@@ -9,11 +9,11 @@ uint validateHour(uint hour);
 uint validateMinute(uint minute);
 void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* currentTime, uint hourPin, uint minutePin);
 
-void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
+void drawRectangleToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
 
-void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data);
-void drawEditModeMessage(SH1122_SPI* spiData);
-void drawClockModeMessage(SH1122_SPI* spiData);
+void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data, size_t dimmLevel);
+void drawEditModeMessage(SH1122_SPI* spiData, size_t dimmLevel);
+void drawClockModeMessage(SH1122_SPI* spiData, size_t dimmLevel);
 
 void drawTimeDots(displayBuffer* oledDisplay);
 void drawSecondDots(displayBuffer* oledDisplay);

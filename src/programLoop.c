@@ -27,17 +27,18 @@ void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* c
 	ds3231_set_datetime(&newTime, rtcModule);
 }
 
-void drawDotToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y){
+void drawRectangleToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y){
 	uint8_t* dot = (uint8_t*)malloc(width*height);
 	memset(dot, 0xFF, width*height);
 	addUint8TBufferToDisplay(oledDisplay, dot, width, height, x, y);
 	free(dot);
 }
 
-void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data){
+void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data, size_t dimmLevel){
 	displayBuffer fullScaleDisplay;
 	initDisplayBuffer(&fullScaleDisplay, 256, 64);
 	addUint8TBufferToDisplay(&fullScaleDisplay, data, 256, 64, 0, 0);
+	dimBufferFromTopAndBottom(&fullScaleDisplay, dimmLevel);
 	convertNormalDisplayBufferToOledBuffer(&fullScaleDisplay);
 	
 	sh1122_show(spiData, fullScaleDisplay.buffer, fullScaleDisplay.bufferLen);
@@ -45,29 +46,29 @@ void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data){
 
 }
 
-void drawEditModeMessage(SH1122_SPI* spiData){
-	drawFullScaleData(spiData, editModeMessage);
+void drawEditModeMessage(SH1122_SPI* spiData, size_t dimmLevel){
+	drawFullScaleData(spiData, editModeMessage, dimmLevel);
 }
 
-void drawClockModeMessage(SH1122_SPI* spiData){
-	drawFullScaleData(spiData, clockModeMessage);
+void drawClockModeMessage(SH1122_SPI* spiData, size_t dimmLevel){
+	drawFullScaleData(spiData, clockModeMessage, dimmLevel);
 }
 
 void drawTimeDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
-		drawDotToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);
+		drawRectangleToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);
 	}
 }
 
 void drawSecondDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
-		drawDotToDisplay(oledDisplay, 3, 3, 256-39, (i*5)+29);
+		drawRectangleToDisplay(oledDisplay, 3, 3, 256-39, (i*5)+29);
 	}
 }
 
 void drawDateDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
-		drawDotToDisplay(oledDisplay, 5, 5, calculateLeftDistanceForDate((i+1)*2, 2)-9, 41);
+		drawRectangleToDisplay(oledDisplay, 5, 5, calculateLeftDistanceForDate((i+1)*2, 2)-9, 41);
 	}
 }
 
