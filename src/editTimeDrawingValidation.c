@@ -20,3 +20,9 @@ void validateEditClockNumber(editClockNumbers* ecn){
 	validateTimeUnits(&ecn->m1, 0, 5);
 	validateTimeUnits(&ecn->m2, 0, 9);
 }
+
+void validateEditDateNumber(editClockNumbers* ecn){
+	validateTimeUnits(&ecn->month, 1, 12);
+	validateYear(&ecn->year, 2000, 2099);
+	validateDayOfMonth(&ecn->day, ecn->month, ecn->year);
+}
