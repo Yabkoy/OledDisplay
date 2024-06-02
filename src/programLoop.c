@@ -72,6 +72,14 @@ void drawDateDots(displayBuffer* oledDisplay){
 	}
 }
 
+void drawUnderlineInEditNumbers(displayBuffer* oledDisplay, size_t index, size_t scale){
+	drawRectangleToDisplay(oledDisplay, 10*scale, 2, calculateLeftDistanceForEditTime(index, scale), 62);
+}
+void drawUnderlineInEditDate(displayBuffer* oledDisplay, size_t index, size_t scale){
+	drawRectangleToDisplay(oledDisplay, 10*scale, 2, calculateLeftDistanceForDate(index, scale), 50);
+}
+
+
 void drawDayOfWeek(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime){
 	uint8_t dayOfWeekIndex = currentTime->dotw;
 	addUint8TBufferToDisplay(oledDisplay, allDaysPointer[dayOfWeekIndex], 34, 14, 256-41, 45);

@@ -18,6 +18,8 @@ void drawClockModeMessage(SH1122_SPI* spiData, size_t dimmLevel);
 void drawTimeDots(displayBuffer* oledDisplay);
 void drawSecondDots(displayBuffer* oledDisplay);
 void drawDateDots(displayBuffer* oledDisplay);
+void drawUnderlineInEditNumbers(displayBuffer* oledDisplay, size_t index, size_t scale);
+void drawUnderlineInEditDate(displayBuffer* oledDisplay, size_t index, size_t scale);
 
 void drawDayOfWeek(displayBuffer* oledDisplay, ds3231_datetime_t* currentTime);
 void drawTemperature(displayBuffer* oledDisplay, ds3231_rtc_t* rtc);
