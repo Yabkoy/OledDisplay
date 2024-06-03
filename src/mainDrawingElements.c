@@ -109,6 +109,9 @@ void drawEditClockModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, editClockN
 		ds3231_set_datetime(&currentTime, rtc);
 		*editMode = 0;
 		currentEditIndex = 0;
+		for(uint8_t i=0; i<=32; i++){
+            drawDateModeNumbers(spiData, rtc, 1, i);
+        }
 		for(uint8_t i=32; i>0; i--){
 			drawClockModeMessage(spiData, i);
 		}

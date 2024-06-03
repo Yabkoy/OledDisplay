@@ -52,7 +52,6 @@ int getDayOfWeek(int d, int m, int y)
            % 7;
 }
 void setCorrectDayOfWeek(ds3231_datetime_t* dateTime){
-	printf("DAY: %d, MON: %d, YEAR: %d\n", dateTime->day, dateTime->month, dateTime->year);
 	uint8_t dowIndex = getDayOfWeek(dateTime->day, dateTime->month, dateTime->year);
 	dowIndex = (dowIndex == 0)? 6 : dowIndex-1;
 	dateTime->dotw = dowIndex;
