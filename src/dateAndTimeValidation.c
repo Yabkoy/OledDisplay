@@ -1,5 +1,17 @@
 #include "dateAndTimeValidation.h"
 
+int concat(int x, int y) {
+	if(y==0){
+        return x*10;
+    }
+    int temp = y;
+    while (y != 0) {
+        x *= 10;
+        y /= 10;
+    }
+    return x + temp;
+}
+
 bool isLeapYear(uint8_t year){
     return (year%4 == 0 && year%100 != 0) || year%400 == 0;
 }

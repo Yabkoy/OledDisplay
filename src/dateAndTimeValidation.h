@@ -3,6 +3,7 @@
 #include "driver/ds3231.h"
 
 
+int concat(int x, int y);
 bool isLeapYear(uint8_t year);
 bool isMonthHave31Days(uint8_t month);
 void validateTimeUnits(uint8_t* timeUnit, uint8_t min, uint8_t max);
