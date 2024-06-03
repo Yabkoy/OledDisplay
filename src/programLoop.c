@@ -54,6 +54,31 @@ void drawClockModeMessage(SH1122_SPI* spiData, size_t dimmLevel){
 	drawFullScaleData(spiData, clockModeMessage, dimmLevel);
 }
 
+void drawMazdaLogo(SH1122_SPI* spiData, uint8_t y, size_t dimmLevel){
+	displayBuffer logoDisplay;
+	initDisplayBuffer(&logoDisplay, 256, 64);
+	fillBufferWithValue(&logoDisplay, 0);
+	uint8_t* mazdaLogo = (uint8_t*)malloc(76*64);
+	uint8_t* mazdaText = (uint8_t*)malloc(174*64);
+	memcpy(mazdaLogo, mazdaLogoBitmap, 76*64);
+	memcpy(mazdaText, mazdaTextBitmap, 174*64);
+
+	addUint8TBufferToDisplay(&logoDisplay, mazdaLogo, 76, 64, 0, y);
+	addUint8TBufferToDisplay(&logoDisplay, mazdaText, 174, 64, 84, y);
+	
+	if(dimmLevel){
+		dimBufferFromTopAndBottom(&logoDisplay, dimmLevel);
+	}
+
+	convertNormalDisplayBufferToOledBuffer(&logoDisplay);
+	
+	deAllocBuffer(&logoDisplay);
+	free(mazdaLogo);
+	free(mazdaText);
+	
+	sh1122_show(spiData, logoDisplay.buffer, logoDisplay.bufferLen);
+}
+
 void drawTimeDots(displayBuffer* oledDisplay){
 	for(int i=0; i<2; i++){
 		drawRectangleToDisplay(oledDisplay, 8, 8, 104, (i*21)+20);

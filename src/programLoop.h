@@ -15,6 +15,8 @@ void drawFullScaleData(SH1122_SPI* spiData, const uint8_t* data, size_t dimmLeve
 void drawEditModeMessage(SH1122_SPI* spiData, size_t dimmLevel);
 void drawClockModeMessage(SH1122_SPI* spiData, size_t dimmLevel);
 
+void drawMazdaLogo(SH1122_SPI* spiData, uint8_t y, size_t dimmLevel);
+
 void drawTimeDots(displayBuffer* oledDisplay);
 void drawSecondDots(displayBuffer* oledDisplay);
 void drawDateDots(displayBuffer* oledDisplay);
