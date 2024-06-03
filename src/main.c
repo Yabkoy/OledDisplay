@@ -38,18 +38,19 @@ int main(){
 	uint32_t previousTimeSecound = 0;
 	uint32_t previousTimeDot = 0;
 	uint32_t previousDateSecound = 0;
+	uint32_t previousInvertSecound = 0;
 
 	editClockNumbers editNumbers;
 	initEditClockNumbersData(&editNumbers, &rtc);
 
 	bool isDot = true;
+	uint8_t isInvert = false;
 	uint32_t editSwitchTimeout = 0;
 	const uint32_t editSwitchDuration = 100000;
 
 	while(true){
 		if(isButtonPressed(BTN1_PIN) && !editMode){
 			editSwitchTimeout++;
-			previousDateSecound = getRunningTime();
 			if(editSwitchTimeout > editSwitchDuration){
 				for(uint8_t i=0; i<=32; i++){
 					drawClockModeNumbers(&spiData, &rtc, 0, i, 256);
@@ -81,37 +82,44 @@ int main(){
 		
 		if(isCurrentTick(&previousTimeSecound, 10) && !dateMode){
 			if(!editMode){
-				drawClockModeNumbers(&spiData, &rtc, isDot, 0, editSwitchTimeout/(editSwitchDuration/255));
+				drawClockModeNumbers(&spiData, &rtc, isDot, 0, (!isInvert)? editSwitchTimeout/(editSwitchDuration/255) : isInvert);
 			} else {
 				drawEditClockModeNumbers(&spiData, &rtc, &editNumbers, &editMode, 0);
-				previousDateSecound = getRunningTime();
 			}
 			previousTimeSecound = getRunningTime();
 		}
 
 		if(dateMode){
-			drawDateModeNumbers(&spiData, &rtc, isDot, 0, 0);
+			drawDateModeNumbers(&spiData, &rtc, isDot, 0, isInvert);
+			if(isCurrentTick(&previousDateSecound, 10000)){
+				dateMode = !dateMode;
+			}
 		}
 
-		if((isCurrentTick(&previousDateSecound, (dateMode)? 5000 : 90000) || isButtonPressed(BTN2_PIN)) && !editMode && editSwitchTimeout < 1){
+		if(isButtonPressed(BTN2_PIN) && !editMode){
 			dateMode = !dateMode;
 			if(dateMode){
 				for(uint8_t i=0; i<=32; i++){
-					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);
+					drawClockModeNumbers(&spiData, &rtc, isDot, i, isInvert);
 				}
 				for(uint8_t i=32; i>0; i--){
-					drawDateModeNumbers(&spiData, &rtc, isDot, i, 0);
+					drawDateModeNumbers(&spiData, &rtc, isDot, i, isInvert);
 				}
 			} else{
 				for(uint8_t i=0; i<=32; i++){
-					drawDateModeNumbers(&spiData, &rtc, isDot, i, 0);
+					drawDateModeNumbers(&spiData, &rtc, isDot, i, isInvert);
 				}
 				for(uint8_t i=32; i>0; i--){
-					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);
+					drawClockModeNumbers(&spiData, &rtc, isDot, i, isInvert);
 				}
 			}
 
 			previousDateSecound = getRunningTime();
+		}
+
+		if(isCurrentTick(&previousInvertSecound, (!isInvert)?900000 : 7500)){
+			isInvert = (!isInvert)? 255 : 0;
+			previousInvertSecound = getRunningTime();
 		}
 	}
 }
