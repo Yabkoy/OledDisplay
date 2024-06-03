@@ -58,6 +58,12 @@ project(OledDisplay)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+option(INTRO_ANIMATION "Enables INTRO ANIMATION ON STARTUP" ON)
+
+if(INTRO_ANIMATION)
+    add_compile_definitions(INTRO_ANIMATION)
+endif()
+
 # rest of your project
 add_executable(${PROJECT_NAME}
 	src/main.c
@@ -73,11 +79,7 @@ add_executable(${PROJECT_NAME}
 	src/driver/ds3231.c
 )
 
-option(INTRO_ANIMATION "Enables INTRO ANIMATION ON STARTUP" ON)
 
-if(INTRO_ANIMATION)
-    add_compile_definitions(INTRO_ANIMATION)
-endif()
 
 
 # Add pico_stdlib library which aggregates commonly used features
