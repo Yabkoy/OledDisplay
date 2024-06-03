@@ -9,8 +9,6 @@
 #include "programLoop.h"
 #include "displayBuffer.h"
 
-#define HOURS_BUTTON_PIN  17
-#define MINUTE_BUTTON_PIN 16
 
 uint32_t getRunningTime(){
 	return to_ms_since_boot(get_absolute_time());
