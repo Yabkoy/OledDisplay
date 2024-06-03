@@ -67,6 +67,7 @@ endif()
 # rest of your project
 add_executable(${PROJECT_NAME}
 	src/main.c
+	src/mainDrawingElements.c
 	src/bitmapsData.c
 	src/scaling.c
 	src/moduleInitialization.c
