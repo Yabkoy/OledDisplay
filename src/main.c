@@ -81,7 +81,7 @@ int main(){
 		
 		if(isCurrentTick(&previousTimeSecound, 10) && !dateMode){
 			if(!editMode){
-				drawClockModeNumbers(&spiData, &rtc, isDot, 0, editSwitchTimeout/(editSwitchDuration/255) );
+				drawClockModeNumbers(&spiData, &rtc, isDot, 0, editSwitchTimeout/(editSwitchDuration/255));
 			} else {
 				drawEditClockModeNumbers(&spiData, &rtc, &editNumbers, &editMode, 0);
 				previousDateSecound = getRunningTime();
@@ -90,7 +90,7 @@ int main(){
 		}
 
 		if(dateMode){
-			drawDateModeNumbers(&spiData, &rtc, isDot, 0);
+			drawDateModeNumbers(&spiData, &rtc, isDot, 0, 0);
 		}
 
 		if((isCurrentTick(&previousDateSecound, (dateMode)? 5000 : 90000) || isButtonPressed(BTN2_PIN)) && !editMode && editSwitchTimeout < 1){
@@ -100,11 +100,11 @@ int main(){
 					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);
 				}
 				for(uint8_t i=32; i>0; i--){
-					drawDateModeNumbers(&spiData, &rtc, isDot, i);
+					drawDateModeNumbers(&spiData, &rtc, isDot, i, 0);
 				}
 			} else{
 				for(uint8_t i=0; i<=32; i++){
-					drawDateModeNumbers(&spiData, &rtc, isDot, i);
+					drawDateModeNumbers(&spiData, &rtc, isDot, i, 0);
 				}
 				for(uint8_t i=32; i>0; i--){
 					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);

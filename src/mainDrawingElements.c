@@ -31,7 +31,7 @@ void drawClockModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, bool isDot, si
 	deAllocBuffer(&oledDisplay);
 }
 
-void drawDateModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, bool isDot, size_t dimmLevel){
+void drawDateModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, bool isDot, size_t dimmLevel, size_t invertLevel){
 	displayBuffer oledDisplay;
 	initDisplayBuffer(&oledDisplay, 256, 64);
 	ds3231_datetime_t currentTime;
@@ -44,6 +44,9 @@ void drawDateModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, bool isDot, siz
 	if(dimmLevel){
 		dimBufferFromTopAndBottom(&oledDisplay, dimmLevel);
 	}
+    if(invertLevel){
+		invertDisplayBufferData(&oledDisplay, invertLevel);
+    }
 	convertNormalDisplayBufferToOledBuffer(&oledDisplay);
 	sh1122_show(spiData, oledDisplay.buffer, oledDisplay.bufferLen);
 	deAllocBuffer(&oledDisplay);
@@ -110,7 +113,7 @@ void drawEditClockModeNumbers(SH1122_SPI* spiData, ds3231_rtc_t* rtc, editClockN
 		*editMode = 0;
 		currentEditIndex = 0;
 		for(uint8_t i=0; i<=32; i++){
-            drawDateModeNumbers(spiData, rtc, 1, i);
+            drawDateModeNumbers(spiData, rtc, 1, i, 0);
         }
 		for(uint8_t i=32; i>0; i--){
 			drawClockModeMessage(spiData, i);
