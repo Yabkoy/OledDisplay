@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.13)
 # note: this must happen before project()
 include(pico_sdk_import.cmake)
 
-set(CMAKE_BUILD_TYPE "Debug") 
+set(CMAKE_BUILD_TYPE "Release") 
 
 # Setting for buttons data
 set(BTN1_PIN 17 CACHE STRING "Pin number for button 1 (edit button)")
