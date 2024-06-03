@@ -1,5 +1,20 @@
 #include "programLoop.h"
 
+uint32_t getRunningTime(){
+	return to_ms_since_boot(get_absolute_time());
+}
+
+bool isButtonPressed(uint btn){
+	return !gpio_get(btn);
+}
+
+bool isAnyTimeChangeButtonPressed(uint btn1, uint btn2){
+	return isButtonPressed(btn1) || isButtonPressed(btn2);
+}
+bool isCurrentTick(uint32_t* previousTimeSec, size_t tick){
+	return getRunningTime() - (*previousTimeSec) >= tick;
+}
+
 uint validateHour(uint hour){
 	return (hour <= 23)? hour : 0;
 }

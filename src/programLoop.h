@@ -5,8 +5,15 @@
 #include "driver/ds3231.h"
 #include "numberDrawing.h"
 
+uint32_t getRunningTime();
+bool isButtonPressed(uint btn);
+bool isAnyTimeChangeButtonPressed(uint btn1, uint btn2);
+bool isCurrentTick(uint32_t* previousTimeSec, size_t tick);
+
+
 uint validateHour(uint hour);
 uint validateMinute(uint minute);
+
 void addHoursAndMinutesToRTCModule(ds3231_rtc_t* rtcModule, ds3231_datetime_t* currentTime, uint hourPin, uint minutePin);
 
 void drawRectangleToDisplay(displayBuffer* oledDisplay, size_t width, size_t height, uint8_t x, uint8_t y);
