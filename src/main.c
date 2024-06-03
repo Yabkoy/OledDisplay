@@ -5,18 +5,14 @@
 #include "pico/time.h"
 #include "hardware/gpio.h"
 
+#include "mainDrawingElements.h"
 #include "moduleInitialization.h"
-#include "programLoop.h"
 #include "displayBuffer.h"
-
-
-uint32_t getRunningTime(){
-	return to_ms_since_boot(get_absolute_time());
-}
-
-bool isAnyTimeChangeButtonPressed(uint hourButton, uint minuteButton){
-	return !gpio_get(hourButton) || !gpio_get(minuteButton);
-}
+#include "editTimeDrawingValidation.h"
+#include "dateAndTimeValidation.h"
+ 
+bool editMode = false;
+bool dateMode = false;
 
 
 int main(){
@@ -29,89 +25,93 @@ int main(){
 	SH1122_SPI spiData;
 
 	initMainModules(&rtc, &spiData);
-	initButton(MINUTE_BUTTON_PIN);
-	initButton(HOURS_BUTTON_PIN);
+	initButton(BTN1_PIN);
+	initButton(BTN2_PIN);
 
-	displayBuffer logoDisplay;
-	for(uint16_t i=0; i<256; i++){
-		initDisplayBuffer(&logoDisplay, 256, 64);
-		fillBufferWithValue(&logoDisplay, 0);
-		uint8_t* mazdaLogo = (uint8_t*)malloc(76*64);
-		uint8_t* mazdaText = (uint8_t*)malloc(174*64);
-		memcpy(mazdaLogo, mazdaLogoBitmap, 76*64);
-		memcpy(mazdaText, mazdaTextBitmap, 174*64);
-
-		addUint8TBufferToDisplay(&logoDisplay, mazdaLogo, 76, 64, 0, 0);
-		addUint8TBufferToDisplay(&logoDisplay, mazdaText, 174, 64, 84, 0);
-
-		printf("Current Iteration: %d\n", i);
-		convertNormalDisplayBufferToOledBuffer(&logoDisplay);
-		
-		deAllocBuffer(&logoDisplay);
-		free(mazdaLogo);
-		free(mazdaText);
-		
-		sh1122_show(&spiData, logoDisplay.buffer, logoDisplay.bufferLen);
-
-	}
-
-	ds3231_datetime_t newTime = {
-		.day = 0,
-		.month = 0,
-		.year = 0	
-	};
-
-	ds3231_set_datetime(&newTime, &rtc);
+	///INTRO ANIMATION
+	#ifdef INTRO_ANIMATION
+		playIntroAnimation(&spiData, &rtc);	
+	#endif
 
 	///PROGRAM LOOP HANDLE
-	bool isDot = true;
 
 	uint32_t previousTimeSecound = 0;
+	uint32_t previousTimeDot = 0;
+	uint32_t previousDateSecound = 0;
+
+	editClockNumbers editNumbers;
+	initEditClockNumbersData(&editNumbers, &rtc);
+
+	bool isDot = true;
+	uint32_t editSwitchTimeout = 0;
+	const uint32_t editSwitchDuration = 100000;
 
 	while(true){
-		if(isAnyTimeChangeButtonPressed(HOURS_BUTTON_PIN, MINUTE_BUTTON_PIN)){
-				ds3231_datetime_t currentTime;
-				ds3231_get_datetime(&currentTime, &rtc);
-				addHoursAndMinutesToRTCModule(&rtc, &currentTime, HOURS_BUTTON_PIN, MINUTE_BUTTON_PIN);
-
-				ds3231_get_datetime(&currentTime, &rtc);
-
-				displayBuffer oledDisplay;
-				initDisplayBuffer(&oledDisplay, 256, 64);
-				drawCurrentTimeNumbers(&oledDisplay, &currentTime);
-				convertNormalDisplayBufferToOledBuffer(&oledDisplay);
-				sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
-
-				deAllocBuffer(&oledDisplay);
-				sleep_ms(100);
+		if(isButtonPressed(BTN1_PIN) && !editMode){
+			editSwitchTimeout++;
+			previousDateSecound = getRunningTime();
+			if(editSwitchTimeout > editSwitchDuration){
+				for(uint8_t i=0; i<=32; i++){
+					drawClockModeNumbers(&spiData, &rtc, 0, i, 256);
+				}
+				for(uint8_t i=32; i>0; i--){
+					drawEditModeMessage(&spiData, i);
+				}
+				sleep_ms(1000);
+				for(uint8_t i=0; i<=32; i++){
+					drawEditModeMessage(&spiData, i);
+				}
+				for(uint8_t i=32; i>0; i--){
+					drawEditClockModeNumbers(&spiData, &rtc, &editNumbers, &editMode, i);
+				}
+				editSwitchTimeout = 0;
+				editMode = !editMode;
 			}
 
-
-		if(getRunningTime() - previousTimeSecound >= 1000){
-			displayBuffer oledDisplay;
-			initDisplayBuffer(&oledDisplay, 256, 64);
-
-			ds3231_datetime_t currentTime;
-			ds3231_get_datetime(&currentTime, &rtc);
-
-			if(isDot){
-				drawAllDots(&oledDisplay);
+		} else{
+			if (editSwitchTimeout != 0){
+				editSwitchTimeout = 0;
 			}
-			drawCurrentTimeNumbers(&oledDisplay, &currentTime);
-			drawTemperature(&oledDisplay, &rtc);
-			drawSecondsNumbers(&oledDisplay, &currentTime);
-			drawDayOfWeek(&oledDisplay, &currentTime);
-			//drawCurrentDateNumbers(&oledDisplay, &currentTime);
+		}
 
-
-			convertNormalDisplayBufferToOledBuffer(&oledDisplay);
-			sh1122_show(&spiData, oledDisplay.buffer, oledDisplay.bufferLen);
-
-			deAllocBuffer(&oledDisplay);
-
+		if(isCurrentTick(&previousTimeDot, 1000)){
 			isDot = !isDot;
+			previousTimeDot = getRunningTime();
+		}
+		
+		if(isCurrentTick(&previousTimeSecound, 10) && !dateMode){
+			if(!editMode){
+				drawClockModeNumbers(&spiData, &rtc, isDot, 0, editSwitchTimeout/(editSwitchDuration/255) );
+			} else {
+				drawEditClockModeNumbers(&spiData, &rtc, &editNumbers, &editMode, 0);
+				previousDateSecound = getRunningTime();
+			}
 			previousTimeSecound = getRunningTime();
 		}
-	}
 
+		if(dateMode){
+			drawDateModeNumbers(&spiData, &rtc, isDot, 0);
+		}
+
+		if((isCurrentTick(&previousDateSecound, (dateMode)? 5000 : 90000) || isButtonPressed(BTN2_PIN)) && !editMode && editSwitchTimeout < 1){
+			dateMode = !dateMode;
+			if(dateMode){
+				for(uint8_t i=0; i<=32; i++){
+					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);
+				}
+				for(uint8_t i=32; i>0; i--){
+					drawDateModeNumbers(&spiData, &rtc, isDot, i);
+				}
+			} else{
+				for(uint8_t i=0; i<=32; i++){
+					drawDateModeNumbers(&spiData, &rtc, isDot, i);
+				}
+				for(uint8_t i=32; i>0; i--){
+					drawClockModeNumbers(&spiData, &rtc, isDot, i, 0);
+				}
+			}
+
+			previousDateSecound = getRunningTime();
+		}
+	}
 }
