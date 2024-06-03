@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.13)
 # note: this must happen before project()
 include(pico_sdk_import.cmake)
 
+set(CMAKE_BUILD_TYPE "Debug") 
+
 project(OledDisplay)
 
 # initialize the Raspberry Pi Pico SDK
@@ -23,6 +25,13 @@ add_executable(${PROJECT_NAME}
 	src/driver/sh1122.c
 	src/driver/ds3231.c
 )
+
+option(INTRO_ANIMATION "Enables INTRO ANIMATION ON STARTUP" ON)
+
+if(INTRO_ANIMATION)
+    add_compile_definitions(INTRO_ANIMATION)
+endif()
+
 
 # Add pico_stdlib library which aggregates commonly used features
 target_link_libraries(${PROJECT_NAME} pico_stdlib hardware_spi hardware_i2c hardware_gpio)
