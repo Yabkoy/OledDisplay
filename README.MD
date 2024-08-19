@@ -4,7 +4,10 @@
 ![buildPassed](https://img.shields.io/badge/build-passing-brightgreen)
 ![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
 # **⌚Oled Display📺**
+## Introduction
+Hi, this is my small embedded project that I was working on in free time. Shortly speaking, it's just a clock made completely from scratch in **C**. I wanted to learn some **low-level C** programming and see what the **Raspberry Pi PICO** can do. Now you can see the current time, date and edit them.
 
+**Enjoy** 👊
 
 ## Hardware Used🔌
 - **Raspberry Pi PICO** (1st gen)
@@ -39,7 +42,7 @@ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-n
 2. Setup fetch pico sdk from github
 ```
 git clone https://github.com/raspberrypi/pico-sdk.git
-export PICO_SDK_PATH={YOUR PATH}
+export PICO_SDK_PATH={YOUR CLONNED PICO SDK PATH}
 ```
 You can add export to .bashrc
 
